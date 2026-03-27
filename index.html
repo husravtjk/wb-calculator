@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<!--
+   ______                            __
+  / ____/___  ____ ___  ____  __  __/ /____  _____
+ / /   / __ \/ __ `__ \/ __ \/ / / / __/ _ \/ ___/
+/ /___/ /_/ / / / / / / /_/ / /_/ / /_/  __/ /
+\____/\____/_/ /_/ /_/ .___/\__,_/\__/\___/_/
+                    /_/
+        Created with Perplexity Computer
+        https://www.perplexity.ai/computer
+-->
+
+<!-- Perplexity Computer Attribution — SEO Meta Tags -->
+<meta name="generator" content="Perplexity Computer">
+<meta name="author" content="Perplexity Computer">
+<meta property="og:see_also" content="https://www.perplexity.ai/computer">
+<link rel="author" href="https://www.perplexity.ai/computer">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Калькулятор прибыли Wildberries</title>
+<meta name="description" content="Точный расчёт прибыли, маржинальности и ROI для товаров на Wildberries. 72 категории, 29 складов, реальные тарифы.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- TOP KPI BAR -->
+<div class="kpi-bar">
+  <div class="kpi-bar-inner">
+    <div class="kpi-bar-brand">
+      <svg class="kpi-logo" viewBox="0 0 32 32" width="28" height="28" fill="none" aria-label="WB Calc">
+        <rect x="2" y="2" width="28" height="28" rx="6" fill="#6C3AE0"/>
+        <path d="M8 22V10h2.5l3 8 3-8H19v12h-2v-8l-2.5 7h-2L10 14v8H8z" fill="white"/>
+      </svg>
+      <span class="kpi-title">WB Калькулятор</span>
+    </div>
+    <div class="kpi-items">
+      <div class="kpi-item">
+        <span class="kpi-label">Маржинальность</span>
+        <span class="kpi-value" id="kpi-margin">0%</span>
+      </div>
+      <div class="kpi-item">
+        <span class="kpi-label">ROI</span>
+        <span class="kpi-value" id="kpi-roi">0%</span>
+      </div>
+      <div class="kpi-item">
+        <span class="kpi-label">Чистая прибыль</span>
+        <span class="kpi-value" id="kpi-profit">0 ₽</span>
+      </div>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">
+      <svg class="theme-icon sun" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <svg class="theme-icon moon" viewBox="0 0 24 24" width="20" height="20"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="main-container">
+  <div class="calc-layout">
+
+    <!-- LEFT: INPUT STEPS -->
+    <div class="calc-steps">
+
+      <!-- STEP 1 -->
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-number">1</span>
+          <h2 class="step-title">Товар и модель продаж</h2>
+        </div>
+        <div class="step-body">
+          <div class="field">
+            <label for="category">Категория товара</label>
+            <div class="select-search-wrap">
+              <input type="text" class="select-search" id="categorySearch" placeholder="Поиск категории..." autocomplete="off">
+              <select id="category"></select>
+            </div>
+          </div>
+          <div class="field">
+            <label>Модель продаж</label>
+            <div class="toggle-group">
+              <button class="toggle-btn active" data-value="fbw" id="btnFBW">FBW</button>
+              <button class="toggle-btn" data-value="fbs" id="btnFBS">FBS</button>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="price">Цена на WB (₽)</label>
+              <input type="number" id="price" value="5000" min="0" step="100">
+            </div>
+            <div class="field">
+              <label for="commission">Комиссия WB (%)</label>
+              <input type="number" id="commission" value="26.5" min="0" max="100" step="0.5">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="extraCommission">Доп. комиссия (%)</label>
+              <input type="number" id="extraCommission" value="0" min="0" max="100" step="0.5">
+            </div>
+            <div class="field">
+              <label for="acquiring">Эквайринг (%)</label>
+              <input type="number" id="acquiring" value="2" min="0" max="10" step="0.1">
+            </div>
+          </div>
+          <div class="field">
+            <label for="spp">СПП: <strong id="sppValue">24%</strong></label>
+            <input type="range" id="spp" min="0" max="50" value="24" step="1">
+            <div class="range-labels"><span>0%</span><span>50%</span></div>
+          </div>
+          <div class="field">
+            <label for="walletDiscount">Скидка WB кошелёк: <strong id="walletValue">5%</strong></label>
+            <input type="range" id="walletDiscount" min="0" max="20" value="5" step="1">
+            <div class="range-labels"><span>0%</span><span>20%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-number">2</span>
+          <h2 class="step-title">Логистика и хранение</h2>
+        </div>
+        <div class="step-body">
+          <div class="field">
+            <label for="warehouse">Склад WB</label>
+            <select id="warehouse"></select>
+          </div>
+          <div class="field-row field-row-3">
+            <div class="field">
+              <label for="dimL">Длина (см)</label>
+              <input type="number" id="dimL" value="30" min="1" step="1">
+            </div>
+            <div class="field">
+              <label for="dimW">Ширина (см)</label>
+              <input type="number" id="dimW" value="20" min="1" step="1">
+            </div>
+            <div class="field">
+              <label for="dimH">Высота (см)</label>
+              <input type="number" id="dimH" value="10" min="1" step="1">
+            </div>
+          </div>
+          <div class="computed-row">
+            <div class="computed-item">
+              <span class="computed-label">Литраж</span>
+              <span class="computed-value" id="volumeDisplay">6.0 л</span>
+            </div>
+            <div class="computed-item">
+              <span class="computed-label">Логистика</span>
+              <span class="computed-value" id="logisticsDisplay">0 ₽</span>
+            </div>
+            <div class="computed-item">
+              <span class="computed-label">Обратная логистика</span>
+              <span class="computed-value" id="returnLogDisplay">0 ₽</span>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="redemptionRate">Процент выкупа (%)</label>
+              <input type="number" id="redemptionRate" value="70" min="1" max="100" step="1">
+            </div>
+            <div class="field">
+              <label for="storageDays">Дни хранения</label>
+              <input type="number" id="storageDays" value="30" min="0" step="1">
+            </div>
+          </div>
+          <div class="computed-row">
+            <div class="computed-item">
+              <span class="computed-label">Хранение/день</span>
+              <span class="computed-value" id="storPerDayDisplay">0 ₽</span>
+            </div>
+            <div class="computed-item">
+              <span class="computed-label">Хранение итого</span>
+              <span class="computed-value" id="storTotalDisplay">0 ₽</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="acceptance">Платная приёмка (₽)</label>
+            <input type="number" id="acceptance" value="0" min="0" step="1">
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-number">3</span>
+          <h2 class="step-title">Реклама и продвижение</h2>
+        </div>
+        <div class="step-body">
+          <div class="field">
+            <label for="advertisingRub">
+              Расход на рекламу (₽)
+              <span class="tooltip-wrap">
+                <span class="tooltip-icon">?</span>
+                <span class="tooltip-text">Введите фактический расход на рекламу в рублях за единицу товара</span>
+              </span>
+            </label>
+            <input type="number" id="advertisingRub" value="0" min="0" step="10">
+          </div>
+          <div class="field">
+            <label for="constructorTariff">
+              Конструктор тарифов (%)
+              <span class="tooltip-wrap">
+                <span class="tooltip-icon">?</span>
+                <span class="tooltip-text">Дополнительные опции конструктора тарифов WB (% от выручки)</span>
+              </span>
+            </label>
+            <input type="number" id="constructorTariff" value="0" min="0" max="100" step="0.5">
+          </div>
+          <div class="computed-row">
+            <div class="computed-item">
+              <span class="computed-label">Итого расходы на продвижение</span>
+              <span class="computed-value" id="promoTotalDisplay">0 ₽</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-number">4</span>
+          <h2 class="step-title">Налог и себестоимость</h2>
+        </div>
+        <div class="step-body">
+          <div class="field-row">
+            <div class="field">
+              <label for="taxMode">Режим налога</label>
+              <select id="taxMode">
+                <option value="income">Доходы %</option>
+                <option value="income-expense">Доходы минус расходы %</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="taxRate">Ставка налога (%)</label>
+              <input type="number" id="taxRate" value="6" min="0" max="100" step="0.5">
+            </div>
+          </div>
+          <div class="field">
+            <label>НДС</label>
+            <div class="toggle-group toggle-group-3">
+              <button class="toggle-btn active" data-value="0" id="vatNone">Нет</button>
+              <button class="toggle-btn" data-value="5" id="vat5">5%</button>
+              <button class="toggle-btn" data-value="7" id="vat7">7%</button>
+            </div>
+          </div>
+          <div class="field-row field-row-3">
+            <div class="field">
+              <label for="purchasePrice">Закупка товара (₽)</label>
+              <input type="number" id="purchasePrice" value="1000" min="0" step="50">
+            </div>
+            <div class="field">
+              <label for="additionalCosts">Доп. расходы (₽)</label>
+              <input type="number" id="additionalCosts" value="50" min="0" step="10">
+            </div>
+            <div class="field">
+              <label for="deliveryToWB">Доставка до WB (₽)</label>
+              <input type="number" id="deliveryToWB" value="80" min="0" step="10">
+            </div>
+          </div>
+          <div class="computed-row">
+            <div class="computed-item">
+              <span class="computed-label">Итого себестоимость</span>
+              <span class="computed-value" id="costTotalDisplay">1 130 ₽</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: RESULTS PANEL -->
+    <div class="results-panel" id="resultsPanel">
+      <div class="results-sticky">
+        <div class="results-card">
+          <h3 class="results-title">Финальный результат</h3>
+
+          <div class="results-prices">
+            <div class="price-row">
+              <span>Ваша цена</span>
+              <span class="price-val" id="resOurPrice">5 000 ₽</span>
+            </div>
+            <div class="price-row">
+              <span>Цена для покупателя</span>
+              <span class="price-val" id="resBuyerPrice">3 610 ₽</span>
+            </div>
+          </div>
+
+          <div class="results-summary">
+            <div class="summary-row highlight-red">
+              <span>Итого удержания WB</span>
+              <span id="resTotalDeductions">0 ₽</span>
+            </div>
+            <div class="summary-row highlight-green">
+              <span>К перечислению</span>
+              <span id="resPayout">0 ₽</span>
+            </div>
+          </div>
+
+          <div class="results-breakdown">
+            <div class="breakdown-header">
+              <span>Статья</span>
+              <span>₽</span>
+              <span>%</span>
+            </div>
+            <div class="breakdown-row" id="rowPrice">
+              <span>Цена на WB</span>
+              <span>5 000</span>
+              <span>100%</span>
+            </div>
+            <div class="breakdown-row deduction" id="rowCommission">
+              <span>Комиссия WB</span>
+              <span>0</span>
+              <span>0%</span>
+            </div>
+            <div class="breakdown-row deduction" id="rowAcquiring">
+              <span>Эквайринг</span>
+              <span>0</span>
+              <span>0%</span>
+            </div>
+            <div class="breakdown-row deduction" id="rowLogistics">
+              <span>Логистика (с учётом выкупа)</span>
+              <span>0</span>
+              <span>0%</span>
+            </div>
+            <div class="breakdown-row deduction" id="rowStorage">
+              <span>Хранение</span>
+              <span>0</span>
+              <span>0%</span>
+            </div>
+            <div class="breakdown-row deduction" id="rowAcceptance">
+              <span>Приёмка</span>
+              <span>0</span>
+              <span>0%</span>
+            </div>
+            <div class="breakdown-row deduction" id="rowAdvertising">
+              <span>Реклама</span>
+              <span>0</span>
+              <span>0%</span>
+            </div>
+            <div class="breakdown-row deduction" id="rowConstructor">
+              <span>Конструктор тарифов</span>
+              <span>0</span>
+              <span>0%</span>
+            </div>
+            <div class="breakdown-row total-row" id="rowTotalDeductions">
+              <span>= Итого удержания WB</span>
+              <span>0</span>
+              <span>0%</span>
+            </div>
+            <div class="breakdown-row payout-row" id="rowPayout">
+              <span>= К перечислению</span>
+              <span>0</span>
+              <span>0%</span>
+            </div>
+            <div class="breakdown-divider"></div>
+            <div class="breakdown-row" id="rowTaxBase">
+              <span>Налоговая база</span>
+              <span>0</span>
+              <span></span>
+            </div>
+            <div class="breakdown-row deduction" id="rowTax">
+              <span>Налог</span>
+              <span>0</span>
+              <span>0%</span>
+            </div>
+            <div class="breakdown-row deduction" id="rowVAT">
+              <span>НДС</span>
+              <span>0</span>
+              <span>0%</span>
+            </div>
+            <div class="breakdown-row deduction" id="rowCost">
+              <span>Себестоимость</span>
+              <span>0</span>
+              <span>0%</span>
+            </div>
+            <div class="breakdown-row profit-row" id="rowProfit">
+              <span>= ЧИСТАЯ ПРИБЫЛЬ</span>
+              <span>0</span>
+              <span>0%</span>
+            </div>
+          </div>
+
+          <div class="results-kpis">
+            <div class="rkpi">
+              <span class="rkpi-label">Маржинальность</span>
+              <span class="rkpi-value" id="resMargin">0%</span>
+            </div>
+            <div class="rkpi">
+              <span class="rkpi-label">ROI</span>
+              <span class="rkpi-value" id="resROI">0%</span>
+            </div>
+            <div class="rkpi">
+              <span class="rkpi-label">Прибыль на единицу</span>
+              <span class="rkpi-value" id="resPerUnit">0 ₽</span>
+            </div>
+          </div>
+
+          <div class="impact-section">
+            <h4 class="impact-title">Влияние на прибыль</h4>
+            <div class="impact-bars" id="impactBars"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span>© 2026 WB Калькулятор — расчёт прибыли Wildberries</span>
+    <a href="https://www.perplexity.ai/computer" target="_blank" rel="noopener noreferrer">Created with Perplexity Computer</a>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
